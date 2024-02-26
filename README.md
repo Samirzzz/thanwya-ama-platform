@@ -1,0 +1,1 @@
+# thanwya-ama-platform
