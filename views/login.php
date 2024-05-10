@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             $_SESSION["gender"] = $UserObject->gender;
             $_SESSION["number"] = $UserObject->number;
 
-            header("Location: pindex.php");
+            header("Location: studentindex.php");
             exit();
         } elseif ($UserObject instanceof Teacher) {
             $_SESSION["tid"] = $UserObject->id;
