@@ -1,7 +1,7 @@
 <?php
 require_once '../app/Model/User.php';
 include_once '..\includes\db.php';
-class Center extends user{
+class Center extends User{
 	public $cid;
 	public $cname;
 	public $cloc;

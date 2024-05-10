@@ -32,12 +32,12 @@ class Teacher extends user{
 
 	             	$this->firstname=$row["firstname"];
 	             	$this->lastname=$row["lastname"];
-	             	$this->specialization=$row["subject"];
+	             	$this->subject=$row["subject"];
 	             	$this->educ=$row["educ"];
 	             	$this->number=$row["number"];
 	             	$this->cid=$row["cid"];
 	 				$this->uid=$row["uid"];
-	 				$this->image=$row["image"];
+	 				// $this->image=$row["image"];
 	
 	}
 
