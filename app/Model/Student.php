@@ -51,22 +51,22 @@ public function getFirstName()
 	{
 		return $this->firstname;
 	}
-	  function getLastName() {
+ public function getLastName() {
 		return $this->lastname;
 	  }
-	  function getuid() {
+public function getuid() {
 		return $this->uid;
 	  }
-	  function getSid() {
+public function getSid() {
 		return $this->sid;
 	  }
-	  function getAddress() {
+public function getAddress() {
 		return $this->address;
 	  }
-	  function getGender() {
+public function getGender() {
 		return $this->gender;
 	  }
-	  function getNumber() {
+public function getNumber() {
 		return $this->number;
 	  }
 
