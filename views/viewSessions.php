@@ -1,6 +1,6 @@
 <?php
 // include_once '../includes/navigation.php';
-require_once '../app/Controller/SessionController';
+require_once '../app/Controller/SessionController.php';
 $db = Database::getInstance();
 $conn = $db->getConnection();	
 $Sessioncntrl =new SessionController();
@@ -12,7 +12,7 @@ $Sessioncntrl =new SessionController();
  
 </head>
 <body>
-   <h1 id="h1h1">Showing appointmnts for: </h1>
+   <h1 id="h1h1">Showing sessions for: </h1>
 
     <table >
    
@@ -34,8 +34,12 @@ if ($_SESSION["type"] == 'center') {
 
 } else {
    $teacher_id =  $Sessioncntrl->getTeacherID($_SESSION["ID"]);
-   $appointmentcntrl->getTeacherSessions($teacher_id);
+   $Sessioncntrl->getTeacherSessions($teacher_id);
 }
+// echo $_SESSION["Cid"] ;
+// echo $_SESSION["cname"]; 
+// echo$_SESSION["cloc"] ;
+// echo $_SESSION["cnumber"]; 
 ?>
 
     </table>
@@ -88,7 +92,7 @@ if ($_SESSION["type"] == 'center') {
 <script>
     function updateAppViewHeading() {
         var sessionViewValue = '<?php echo $_SESSION['sessionView']; ?>';
-        document.getElementById('h1h1').innerText = "Showing appointments for: " + sessionViewValue;
+        document.getElementById('h1h1').innerText = "Showing sessions for: " + sessionViewValue;
     }
 
     window.onload = function() {

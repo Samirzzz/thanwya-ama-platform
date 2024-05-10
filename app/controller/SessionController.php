@@ -83,7 +83,7 @@ public function validateSessionUpdate($date, $time, $price)
 
 public function getCenterID($id)
  {
-    $sql = "SELECT user_acc.uid, user_acc.email,user_acc.usertype_id, center.cname, center.uid,center.cid,
+    $sql = "SELECT user_acc.uid, user_acc.email,user_acc.usertype_id, center.cname, center.uid,center.Cid,
     center.cnumber,center.cloc
     FROM center 
     JOIN user_acc ON user_acc.uid = center.uid where user_acc.uid=".$id;
@@ -183,7 +183,7 @@ public function deleteSession($sessionId){
 }
 
 public function viewSessions($ID){
-    $sql = "SELECT * FROM sessions where cid =".$ID;
+    $sql = "SELECT * FROM sessions where Cid =".$ID;
    $result = mysqli_query($this->conn,$sql);
    
    if ($result->num_rows > 0) {
@@ -245,7 +245,7 @@ public function getTeacherSessions($teacherID){
         echo "</tr>";
     }
 } else {
-    echo "<h1>" ."No appointments found"."</h1" ;
+    echo "<h1>" ."No sessions found"."</h1" ;
 }
 $sql2 = "SELECT firstname, lastname FROM teacher WHERE tid = {$teacherID}";
 $res2 = mysqli_query($this->conn, $sql2);

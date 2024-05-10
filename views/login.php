@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             $_SESSION["tid"] = $UserObject->id;
             $_SESSION["firstname"] = $UserObject->firstname;
             $_SESSION["lastname"] = $UserObject->lastname;
-            $_SESSION["specialization"] = $UserObject->specialization;
+            $_SESSION["subject"] = $UserObject->subject;
             $_SESSION["number"] = $UserObject->number;
             $_SESSION["educ"] = $UserObject->educ;
             $_SESSION["Cid"] = $UserObject->cid;
@@ -100,8 +100,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             $_SESSION["cname"] = $UserObject->cname;
             $_SESSION["cloc"] = $UserObject->cloc;
             $_SESSION["cnumber"] = $UserObject->cnumber;
+            
 
-            header("Location: admin.php");
+            header("Location: viewSessions.php");
             exit();
         }
     } else {
