@@ -24,7 +24,7 @@ class CenterController
             while($row=mysqli_fetch_array($result)) {
                 $center[$i++]=new Center($row[0]);
             }	
-            return $clinic;
+            return $center;
     
         }
     
