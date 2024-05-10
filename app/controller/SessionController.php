@@ -90,7 +90,7 @@ public function getCenterID($id)
     $result = mysqli_query($this->conn,$sql);
     if($row=mysqli_fetch_array($result)){
     
-                    $CID=$row["cid"];
+                    $CID=$row["Cid"];
 
     }
     return $CID;
@@ -134,7 +134,7 @@ public function getCenterTeachers($cid)
 public function addSession($date, $time, $status, $price, $teacherId, $centerId, $studentId)
 {
     
-    $sql = "INSERT INTO appointments (date, time, status, pid, did, cid, price) VALUES ('$date', '$time', '$status', NULL , '$teacherId', '$centerId', '$price')";
+    $sql = "INSERT INTO sessions (date, time, status, sid, tid, cid, price) VALUES ('$date', '$time', '$status', NULL , '$teacherId', '$centerId', '$price')";
     $res = mysqli_query($this->conn, $sql);
 
     if ($res) {
@@ -181,35 +181,32 @@ public function deleteSession($sessionId){
         return false;
     }
 }
-
 public function viewSessions($ID){
-    $sql = "SELECT * FROM sessions where Cid =".$ID;
-   $result = mysqli_query($this->conn,$sql);
-   
-   if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $row['sessid'] . "</td>";
+    // Query the sessions table and join it with the center table to get the center's name
+    $sql = "SELECT sessions.*, center.cname FROM sessions
+            JOIN center ON center.Cid = sessions.Cid
+            WHERE sessions.Cid = " . intval($ID);
+    $result = mysqli_query($this->conn, $sql);
 
-        echo "<td>" . $row['date'] . "</td>";
-        echo "<td>" . $row['time'] . "</td>";
-        echo "<td>" . $row['status'] . "</td>";
-        echo "<td><a href='./editSessions.php?sessid=" . $row['sessid'] . "'>Edit</a> | <a href='./deleteSessions.php?sessid=" . $row['sessid'] . "'>Delete</a></td>";
-        $sql2 = "Select cname from center WHERE Cid = '{$row['Cid']}'";
-        $res2=mysqli_query($this->conn,$sql2);
-        if ($res2->num_rows>0){
-            $centerrow = $res2->fetch_assoc();
-            echo "<td>" . $centerrow['cname'] . "</td>";
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row['sessid'] . "</td>";
+            echo "<td>" . $row['date'] . "</td>";
+            echo "<td>" . $row['time'] . "</td>";
+            echo "<td>" . $row['status'] . "</td>";
+            echo "<td><a href='./editSessions.php?sessid=" . $row['sessid'] . "'>Edit</a> | <a href='./deleteSessions.php?sessid=" . $row['sessid'] . "'>Delete</a></td>";
+            echo "<td>" . $row['cname'] . "</td>";
+            echo "</tr>";
         }
-       
-    
-    
-        echo "</tr>";
+    } else {
+        echo "<h1>No sessions found</h1>";
     }
-} else {
-    echo "<h1>" ."No sessions found"."</h1" ;
-}
-$sql2="select cname from sessions where cid = {$ID}";
+
+  
+
+
+$sql2="select cname from center where Cid = {$ID}";
 $res2=mysqli_query($this->conn,$sql2);
 if ($res2) {
     $row = mysqli_fetch_assoc($res2);

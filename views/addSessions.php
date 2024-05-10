@@ -1,5 +1,5 @@
 <?php
-// include_once '..\includes\navigation.php';
+include_once '..\includes\navigation.php';
 require_once '../app\controller\SessionController.php';
 $db = Database::getInstance();
 $conn = $db->getConnection();	
@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
   
     <input type="submit" id="submit" name="submit" value="submit">
     <span class = "error">
-    <?php $appointmentcntrl->displayErrors($errors) ?>
+    <?php $sessioncntrl->displayErrors($errors) ?>
 </span>
    </form>
 

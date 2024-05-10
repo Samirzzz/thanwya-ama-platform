@@ -1,9 +1,10 @@
 <?php
-// include_once '../includes/navigation.php';
+include_once '../includes/navigation.php';
 require_once '../app/Controller/SessionController.php';
 $db = Database::getInstance();
 $conn = $db->getConnection();	
 $Sessioncntrl =new SessionController();
+
 
 ?>
 <html>
