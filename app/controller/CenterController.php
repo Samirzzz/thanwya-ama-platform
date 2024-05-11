@@ -15,7 +15,7 @@ class CenterController
     
         $i=0;
             $center=array();
-            $sql = "SELECT user_acc.uid, user_acc.email, center.cid,center.cname, center.cloc ,center.workhrs,center.cnumber
+            $sql = "SELECT user_acc.uid, user_acc.email, center.Cid,center.cname, center.cloc,center.cnumber
                                 FROM center 
                                 JOIN user_acc ON user_acc.uid = center.uid  
                                 WHERE email LIKE '%$value%'";

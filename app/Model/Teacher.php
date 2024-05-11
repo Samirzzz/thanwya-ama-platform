@@ -28,14 +28,14 @@ class Teacher extends user{
 	        if($row=mysqli_fetch_array($result))
 			{
 				parent::__construct($row["uid"]);
-				$this->did=$row["tid"];
+				$this->teacherId=$row["tid"];
 
 	             	$this->firstname=$row["firstname"];
 	             	$this->lastname=$row["lastname"];
 	             	$this->subject=$row["subject"];
 	             	$this->educ=$row["educ"];
 	             	$this->number=$row["number"];
-	             	$this->cid=$row["cid"];
+	             	$this->cid=$row["Cid"];
 	 				$this->uid=$row["uid"];
 	 				// $this->image=$row["image"];
 	
