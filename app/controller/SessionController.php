@@ -259,20 +259,20 @@ if ($res2->num_rows > 0) {
 public function bookingOptions(){
     $sql = "SELECT subject FROM teacher";
     $res = mysqli_query($this->conn, $sql);
-    $spec = [];
+    $sub = [];
 
     while ($row = $res->fetch_assoc()) {
-        $spec[] = $row['subject'];
+        $sub[] = $row['subject'];
     }
 
     // Remove duplicates
-    $spec = array_unique($spec);
+    $sub = array_unique($sub);
 
-    $spec = array_map(function ($specialization) {
-        return ['subject' => $specialization];
-    }, $spec);
+    $sub = array_map(function ($subject) {
+        return ['subject' => $subject];
+    }, $sub);
 
-    return $spec;
+    return $sub;
 }
 
 
@@ -284,20 +284,20 @@ public function displayErrors($err){
     }
 }
 
-public function getSubjectSessions($specialization){
+public function getSubjectSessions($subject){
 
     $sql = "SELECT
-        a.sessid, a.date, a.time, a.price, a.Did, a.Cid,
-        d.firstname, d.lastname, d.specialization,
+        a.sessid, a.date, a.time, a.price, a.tid, a.Cid,
+        d.firstname, d.lastname, d.subject,
         c.cname
     FROM
         sessions a
     JOIN
-        teacher d ON a.Did = d.Did
+        teacher d ON a.tid = d.tid
     JOIN
         center c ON a.Cid = c.Cid
     WHERE
-        d.subject = '$specialization' and a.status = 'available' ";
+        d.subject = '$subject' and a.status = 'available' ";
 
 
     $result = mysqli_query($this->conn,$sql);
@@ -307,11 +307,11 @@ public function getSubjectSessions($specialization){
             echo "<tr>";
             echo "<td>" . $row['date'] . "</td>";   
             echo "<td>" . $row['firstname'] . " " . $row['lastname'] . "</td>"; 
-            echo "<td>" . $row['specialization'] . "</td>"; 
+            echo "<td>" . $row['subject'] . "</td>"; 
             echo "<td>" . $row['time'] . "</td>";      
             echo "<td>" . $row['price'] . "</td>";     
             echo "<td>" . $row['cname'] . "</td>";
-            echo "<td><a href='./patientReservations.php?sessid=" . $row['sessid'] . "'>Book Now </a></td>";
+            echo "<td><a href='./enrollNow.php?sessid=" . $row['sessid'] . "'>Book Now </a></td>";
             echo "</tr>";
         }
     } else 
@@ -330,7 +330,7 @@ public function getSubjectSessions($specialization){
 public function getStudentID($id)
  {
     
-    $sql = "SELECT user_acc.uid, user_acc.email,user_acc.usertype_id, student.Pid, student.uid
+    $sql = "SELECT user_acc.uid, user_acc.email,user_acc.usertype_id, student.sid, student.uid
     FROM student 
     JOIN user_acc ON user_acc.uid = student.uid where user_acc.uid=".$id;
     $result = mysqli_query($this->conn,$sql);
@@ -343,78 +343,75 @@ public function getStudentID($id)
     return $PID;
 
 } 
-public function bookForPatient($sid,$sessid)
+public function bookForStudent($sid, $sessid)
 {
-    $sql = "UPDATE sessions SET sid = '$sid',status='reserved' WHERE sessid = $sessid";
-    $res = mysqli_query($this->conn, $sql);
-    if ($res) {
-        $this->session->pid=$sid;
-        return true;
-    } 
-    else 
-    {
-        return false;
-    }
-}
-public function viewStudentSessions($sid){
-    $sql = "SELECT
-    a.sessid, a.date, a.time, a.price, a.Did, a.Cid,
-    d.firstname, d.lastname, 
-    c.cname
-FROM
-    sessions a
-JOIN
-    teacher d ON a.Did = d.Did
-JOIN
-    center c ON a.Cid = c.Cid
-WHERE
-    a.sid =".$sid;
-
-    $result = mysqli_query($this->conn,$sql);
-    
-    if ($result->num_rows > 0) {
-     while ($row = $result->fetch_assoc()) {
-         echo "<tr>";
-         echo "<td>" . $row['date'] . "</td>";
-         echo "<td>" . $row['time'] . "</td>";
-        
-         echo "<td>" . $row['firstname'] ." ". $row['lastname']. "</td>";
-        
-         echo "<td>" . $row['cname'] . "</td>";
-         echo "<td>" . $row['price'] . "</td>";
-         echo "<td><a href='./cancelReservation.php?sessid=" . $row['sessid'] . "'>Cancel</a> </td>";
-        //  $sql2 = "Select cname from clinic WHERE Cid = '{$row['Cid']}'";
-        //  $res2=mysqli_query($this->conn,$sql2);
-        //  if ($res2->num_rows>0){
-        //      $clincirow = $res2->fetch_assoc();
-        //      echo "<td>" . $clincirow['cname'] . "</td>";
-        //  }
-        
-     
-     
-         echo "</tr>";
+     // Check if the student is already booked for the session
+     $check_sql = "SELECT * FROM enrollment WHERE sid = '$sid' AND sessid = '$sessid'";
+     $check_result = mysqli_query($this->conn, $check_sql);
+     if (mysqli_num_rows($check_result) > 0) {
+         echo "Error: you already have booked this session before";
+         return;
      }
- } else {
-     echo "<h1>" ."No sessions found"."</h1" ;
- }
+   $enrollment_sql = "INSERT INTO enrollment (sid, sessid) VALUES ('$sid', '$sessid')";
+    $enrollment_result = mysqli_query($this->conn, $enrollment_sql);
+    if (!$enrollment_result) {
+        echo "Error: " . mysqli_error($this->conn);
+        return;
 
-}
-
-
-public function cancelReservation($sid,$sessid)
-{
-    $sql = "UPDATE sessions SET sid = NULL , status='available' WHERE sessid = $sessid";
-    $res = mysqli_query($this->conn, $sql);
-    if ($res) {
-        
-        return true;
-    } 
-    else 
-    {
-        return false;
     }
 
 }
+
+public function viewStudentSessions($sid) {
+    $sql = "SELECT
+                s.sessid, s.date, s.time, s.price, s.tid, s.Cid,
+                t.firstname AS teacher_firstname, t.lastname AS teacher_lastname,
+                c.cname,
+                e.id AS enrollment_id
+            FROM
+                sessions s
+            JOIN
+                teacher t ON s.tid = t.tid
+            JOIN
+                center c ON s.Cid = c.Cid
+            JOIN
+                enrollment e ON s.sessid = e.sessid
+            WHERE
+                e.sid = $sid";
+
+    $result = mysqli_query($this->conn, $sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row['date'] . "</td>";
+            echo "<td>" . $row['time'] . "</td>";
+            echo "<td>" . $row['teacher_firstname'] . " " . $row['teacher_lastname'] . "</td>";
+            echo "<td>" . $row['cname'] . "</td>";
+            echo "<td>" . $row['price'] . "</td>";
+            echo "<td><a href='./cancelEnrollment.php?enrollment_id=" . $row['enrollment_id'] . "'>Cancel</a> </td>";
+            echo "</tr>";
+        }
+    } else {
+        echo "<h1>No sessions found</h1>";
+    }
+}
+
+
+
+
+public function cancelEnrollment($enrollment_id) {
+    $delete_sql = "DELETE FROM enrollment WHERE id = $enrollment_id";
+    $delete_result = mysqli_query($this->conn, $delete_sql);
+
+    if (!$delete_result) {
+        echo "Error: " . mysqli_error($this->conn);
+        return;
+    } else {
+        echo "Enrollment canceled successfully.";
+    }
+}
+
 public function retreivedoc()
 {
     $sql = "SELECT * FROM teacher where cid =0";
