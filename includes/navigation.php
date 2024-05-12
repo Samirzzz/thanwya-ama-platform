@@ -11,7 +11,7 @@ include_once '..\includes\db.php';
 
  if (!empty($_SESSION['ID'])) {
      $UserObject = new user($_SESSION["ID"]);
-
+ }
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +63,7 @@ li {
  <section class="header">
         <div class="logo">
             <i class="ri-menu-line menu"></i>
-            <h2><span>Ta</span>BeeBy.</h2>
+            <h2><span>Man</span>seti.</h2>
         </div>
         <div class="header--items"> 
         <div class="dark--theme--btn">
@@ -78,31 +78,28 @@ li {
         <div class="sidebar">
             <ul class="sidebar--items">
         <div class="profile-box">
-                <img src="../public/images/<?php echo $_SESSION['image'];?>" alt="Profile Image">
-                <span >  <?php echo ('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  '. $_SESSION["email"]); ?></span>
+                <!-- <img src="../public/images/<?php //echo $_SESSION['image'];?>" alt="Profile Image"> -->
+                <span > <?php //echo ('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  '. $_SESSION["email"]); ?></span>
             </div>
 <?php
-    for($i=0;$i<count($UserObject->usertype->pages);$i++){
+   // for($i=0;$i<count($UserObject->usertype->pages);$i++){
         
-        echo '
+       // echo '
        
 
 
 
 
-                <li>
-                <a class="'.$UserObject->usertype->pages[$i]->class.'"  href="'.$UserObject->usertype->pages[$i]->linkaddress.'">
-                    <span class="icon">'.$UserObject->usertype->pages[$i]->icons.'</i></span>
-                    <div class="sidebar--item">'.$UserObject->usertype->pages[$i]->name.'</div>
-                </a>
-            </li>
+        //         <li>
+        //         <a class="'.$UserObject->usertype->pages[$i]->class.'"  href="'.$UserObject->usertype->pages[$i]->linkaddress.'">
+        //             <span class="icon">'.$UserObject->usertype->pages[$i]->icons.'</i></span>
+        //             <div class="sidebar--item">'.$UserObject->usertype->pages[$i]->name.'</div>
+        //         </a>
+        //     </li>
               
-            ';
-        }
+        //     ';
+        // }
         
-        
-        
-    }
     
     ?>
     </div>
