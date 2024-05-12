@@ -12,7 +12,7 @@
 </head>
 <?php
 include_once '../includes/navigation.php';
-// require_once '../app\controller\AppointmentController.php';
+require_once '../app\controller\AppointmentController.php';
         $db = Database::getInstance();
         $conn = $db->getConnection();
 //  $appointmentcntrl =new AppointmentController();
