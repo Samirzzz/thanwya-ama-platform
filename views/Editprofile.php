@@ -11,15 +11,15 @@
 include_once "../includes/navigation.php";
 include_once "../includes/db.php";
 require_once '../app/Model/User.php';
-require_once '../app/Model/Patient.php';
-require_once '../app/Model/Doctor.php';
-require_once '../app/Model/Clinic.php';
+require_once '../app/Model/Student.php';
+require_once '../app/Model/Teacher.php';
+require_once '../app/Model/Center.php';
 require_once '../app/Model/UserType.php';
 require_once '../app/Model/Pages.php';
 require_once '../app/controller/UserController.php';
-require_once '../app/controller/PatientController.php';
-require_once '../app/controller/DrController.php';
-require_once '../app/controller/ClinicController.php';
+require_once '../app/controller/StudentController.php';
+require_once '../app/controller/TeacherController.php';
+require_once '../app/controller/CenterController.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -30,24 +30,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 	$conn = $db->getConnection();
 
 
-    if ($UserType == "patient") {
+    if ($UserType == "student") {
         $Fname = htmlspecialchars($_POST['firstname']);
         $Lname = htmlspecialchars($_POST['lastname']);
         $number = htmlspecialchars($_POST['number']);
         $Address = htmlspecialchars($_POST['address']);
         $gender = htmlspecialchars($_POST['gender']);
 
-    } elseif ($UserType == "doctor") {
+    } elseif ($UserType == "teacher") {
         $Fname = htmlspecialchars($_POST['firstname']);
         $Lname = htmlspecialchars($_POST['lastname']);
         $number = htmlspecialchars($_POST['number']);
-        $Specialization = htmlspecialchars($_POST['specialization']);
+        $Subject = htmlspecialchars($_POST['subject']);
         $Education = htmlspecialchars($_POST['education']);
     }
-    elseif($UserType=='clinic')    {
-        $cloc = htmlspecialchars($_POST['clinicLocation']);
-        $cname = htmlspecialchars($_POST['clinicName']);
-        $cnumber = htmlspecialchars($_POST['clinicNumber']);
+    elseif($UserType=='center')    {
+        $cloc = htmlspecialchars($_POST['centerLocation']);
+        $cname = htmlspecialchars($_POST['centerName']);
+        $cnumber = htmlspecialchars($_POST['centerNumber']);
 
     }
 
@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if($edituser)
     {
         
-        if ($UserType == "patient") {
-            $editpatient=PatientController::editPatient($Fname,$Lname,$number,$gender,$Address,$userID,$conn);
-            if($editpatient)
+        if ($UserType == "student") {
+            $editstudent=StudentController::editStudent($Fname,$Lname,$number,$gender,$Address,$userID,$conn);
+            if($editstudent)
             {
                 $_SESSION['email']=$email;
                 $_SESSION['firstname']=$Fname;
@@ -70,25 +70,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
             }
-        } elseif ($UserType == "doctor") {
-            $editdoctor=DrController::editDoctor($Fname,$Lname,$number,$Education,$Specialization,$userID,$conn);
-            if($editdoctor)
+        } elseif ($UserType == "teacher") {
+            $editteacher=TeacherController::editTeacher($Fname,$Lname,$number,$Education,$Subject,$userID,$conn);
+            if($editteacher)
             {
                 $_SESSION['email']=$email;
                 $_SESSION['firstname']=$Fname;
                 $_SESSION['lastname']=$Lname;
                 $_SESSION['educ']=$Education;
-                $_SESSION['specialization']=$Specialization;
+                $_SESSION['subject']=$Subject;
                 header("Location:../views/admin.php");
 
             }
         }
-        elseif ($UserType == 'clinic') {
-            $cloc = htmlspecialchars($_POST['clinicLocation']);
-            $cname = htmlspecialchars($_POST['clinicName']);
-            $cnumber = htmlspecialchars($_POST['clinicNumber']);
-            $editclinic=ClinicController::editClinic($cname,$cloc,$cnumber,$userID,$conn);
-            if($editclinic)
+        elseif ($UserType == 'center') {
+            // $cloc = htmlspecialchars($_POST['clinicLocation']);
+            // $cname = htmlspecialchars($_POST['clinicName']);
+            // $cnumber = htmlspecialchars($_POST['clinicNumber']);
+            $editcenter=CenterController::editCenter($cname,$cloc,$cnumber,$userID,$conn);
+            if($editcenter)
             {
                 $_SESSION['email']=$email;
                 $_SESSION['cname']=$cname;
@@ -130,25 +130,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
            
 
             <?php
-            if ($_SESSION["type"] == 'Center') {
+            if ($_SESSION["type"] == 'center') {
                 echo '<div class="form-group">
-                        <label for="clinicName">Clinic Name</label>
-                        <input type="text" class="form-control" id="clinicName" name="clinicName" value="' . $_SESSION["cname"] . '">
-                        <div class="error-message" id="clinicName-error"></div>
+                        <label for="centerName">Center Name</label>
+                        <input type="text" class="form-control" id="centerName" name="centerName" value="' . $_SESSION["cname"] . '">
+                        <div class="error-message" id="centerName-error"></div>
                     </div>
                     <div class="form-group">
-                        <label for="clinicLocation">Clinic Location</label>
-                        <input type="text" class="form-control" id="clinicLocation" name="clinicLocation" value="' . $_SESSION["cloc"] . '">
-                        <div class="error-message" id="clinicLocation-error"></div>
+                        <label for="centerLocation">Center Location</label>
+                        <input type="text" class="form-control" id="centerLocation" name="centerLocation" value="' . $_SESSION["cloc"] . '">
+                        <div class="error-message" id="centerLocation-error"></div>
                     </div>
                     <div class="form-group">
-                    <label for="clinicLocation">Clinic Number</label>
-                    <input type="text" class="form-control" id="clinicLocation" name="clinicNumber" value="' . $_SESSION["cnumber"] . '">
-                    <div class="error-message" id="clinicLocation-error"></div>
+                    <label for="centerLocation">Center Number</label>
+                    <input type="text" class="form-control" id="centerLocation" name="centerNumber" value="' . $_SESSION["cnumber"] . '">
+                    <div class="error-message" id="centerLocation-error"></div>
                 </div>
                     ';
             }
-            elseif ($_SESSION["type"] == 'Teacher') {
+            elseif ($_SESSION["type"] == 'student') {
                 echo '
                 <div class="form-group">
                 <label for="firstname">First Name</label>
@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <option value="F">Female</option>
                         </select>
                     </div>';
-            } elseif ($_SESSION["type"] == 'Student') {
+            } elseif ($_SESSION["type"] == 'teacher') {
                 echo '
                 <div class="form-group">
                 <label for="firstname">First Name</label>
@@ -255,9 +255,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     </script>
 </body>
 <footer>
-    <?php
-    include_once "../includes/footer.php";
-    ?>
+     <?php
+    // include_once "../includes/footer.php";
+    ?> 
 </footer>
 
 </html>
