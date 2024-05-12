@@ -85,3 +85,7 @@ table{
     font-size: 13px;
     animation: transitionIn-Y-over 0.5s;
 }
+.uppercase-text
+{
+    color: white;
+}

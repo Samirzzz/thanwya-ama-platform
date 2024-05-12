@@ -7,7 +7,7 @@ class Database {
         $db_server = 'localhost';
         $db_user = 'root';
         $db_pass = '';
-        $db_name = 'sa-manaseti';
+        $db_name = 'thanwya_platform';
 
         $this->conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
 
