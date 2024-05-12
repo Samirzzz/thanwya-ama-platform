@@ -3,6 +3,7 @@ include_once '../includes/navigation.php';
 require_once '../app/Controller/SessionController.php';
 $db = Database::getInstance();
 $conn = $db->getConnection();	
+session_start();
 $Sessioncntrl =new SessionController();
 
 
@@ -41,6 +42,7 @@ if ($_SESSION["type"] == 'center') {
 // echo $_SESSION["cname"]; 
 // echo$_SESSION["cloc"] ;
 // echo $_SESSION["cnumber"]; 
+echo $_SESSION["email"];
 ?>
 
     </table>

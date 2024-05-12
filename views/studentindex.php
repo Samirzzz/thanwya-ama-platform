@@ -170,7 +170,7 @@ echo "session id : ".$appID;
 
                         
                         <a href="#" class="non-style-link"><b>"Sessions"</b> </a>sections<br>
-                        <br> and get insights into the expected arrival times of your educators."<br><br>
+                         and get insights into the expected arrival times of your educators."<br><br>
                     </p>
             
                     <h3>Channel a Teacher Here</h3>
@@ -206,7 +206,7 @@ echo "session id : ".$appID;
 
      
   </tr>
- <?php $sessioncntrl->viewStudentsessions($studentId);?>
+ <!-- <?php $sessioncntrl->viewStudentsessions($studentId);?> -->
                 </thead>
                 <tbody>
 

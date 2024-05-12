@@ -138,22 +138,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 <form action="" enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
                 <div class="form-group">
                     <label for="userType">User Type:</label>
-                    <select class="form-control" id="userType" name="userType" onchange="toggleDoctorFields()"  onchange="toggleclincFileds()">
+                    <select class="form-control" id="userType" name="userType" onchange="toggleteacherFields()">
                         <option value="student">Student</option>
                         <option value="teacher">Teacher</option>
-                        <option value="Center">Center</option>
+                        <option value="center">Center</option>
                     </select>
                 </div>
                 
-                <div class="form-group" id="Clinc-fields" style="display: none;">
-                    <label for="Clinc-addresss">Clinc Address:</label>
-                    <input type="text" class="form-control" id="Clinc-addresss" placeholder="Clinc-addresss" name="cloc">
+                <div class="form-group" id="center-fields" style="display: block;">
+                    <label for="center-addresss">center Address:</label>
+                    <input type="text" class="form-control" id="center-addresss" placeholder="center-addresss" name="cloc">
                     <br>
-                    <label for="clinc-name">Name:</label>
-                    <input type="text" class="form-control" id="Clinc-Name" placeholder="Clinc-name" name="cname">
+                    <label for="center-name">Name:</label>
+                    <input type="text" class="form-control" id="center-Name" placeholder="center-name" name="cname">
                     <br>
-                    <label for="clinc-number">Number:</label>
-                    <input type="text" class="form-control" id="Clinc-Number" placeholder="Clinc-Number" name="cnumber">
+                    <label for="center-number">Number:</label>
+                    <input type="text" class="form-control" id="center-Number" placeholder="center-Number" name="cnumber">
                 </div>
                 <div id="fields" style="display:block;">
                     <div class="form-group">
@@ -193,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                             required>
                         <div id="address-error" class="error-message text-danger"></div>
                     </div>
-                    <div class="form-group" id="doctor-fields" style="display: none;">
+                    <div class="form-group" id="teacher-fields" style="display: none;">
                     <label for="subject">subject:</label>
                     <input type="text" class="form-control" id="subject" placeholder="subject" name="subject">
                     <br>

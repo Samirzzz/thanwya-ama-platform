@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             $_SESSION["cnumber"] = $UserObject->cnumber;
             
 
-            header("Location: viewSessions.php");
+            header("Location: admin.php");
             exit();
         }
     } else {
