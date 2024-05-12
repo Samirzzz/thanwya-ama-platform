@@ -87,10 +87,6 @@ $conn = $db->getConnection();
     </div>
 </body>
 
-<footer>
-    <?php
-    include_once "../includes/footer.php";
-    ?>
-</footer>
+
 
 </html>
