@@ -195,7 +195,7 @@ public function viewSessions($ID){
             echo "<td>" . $row['date'] . "</td>";
             echo "<td>" . $row['time'] . "</td>";
             echo "<td>" . $row['status'] . "</td>";
-            echo "<td><a href='./editSessions.php?sessid=" . $row['sessid'] . "'>Edit</a> | <a href='./deleteSessions.php?sessid=" . $row['sessid'] . "'>Delete</a></td>";
+            echo "<td><a href='./editSession.php?sessid=" . $row['sessid'] . "'>Edit</a> | <a href='./deleteSession.php?sessid=" . $row['sessid'] . "'>Delete</a></td>";
             echo "<td>" . $row['cname'] . "</td>";
             echo "</tr>";
         }
@@ -287,7 +287,7 @@ public function displayErrors($err){
 public function getSubjectSessions($specialization){
 
     $sql = "SELECT
-        a.Appid, a.date, a.time, a.price, a.Did, a.Cid,
+        a.sessid, a.date, a.time, a.price, a.Did, a.Cid,
         d.firstname, d.lastname, d.specialization,
         c.cname
     FROM
@@ -311,12 +311,12 @@ public function getSubjectSessions($specialization){
             echo "<td>" . $row['time'] . "</td>";      
             echo "<td>" . $row['price'] . "</td>";     
             echo "<td>" . $row['cname'] . "</td>";
-            echo "<td><a href='./patientReservations.php?Appid=" . $row['Appid'] . "'>Book Now </a></td>";
+            echo "<td><a href='./patientReservations.php?sessid=" . $row['sessid'] . "'>Book Now </a></td>";
             echo "</tr>";
         }
     } else 
     {
-        echo  "<div class='no-appointments-found'><h1>NO APPOINTMENTS FOUND!</h1></div>";
+        echo  "<div class='no-sessions-found'><h1>NO sessions FOUND!</h1></div>";
         
     }
     
@@ -358,7 +358,7 @@ public function bookForPatient($sid,$sessid)
 }
 public function viewStudentSessions($sid){
     $sql = "SELECT
-    a.Appid, a.date, a.time, a.price, a.Did, a.Cid,
+    a.sessid, a.date, a.time, a.price, a.Did, a.Cid,
     d.firstname, d.lastname, 
     c.cname
 FROM
@@ -395,7 +395,7 @@ WHERE
          echo "</tr>";
      }
  } else {
-     echo "<h1>" ."No appointments found"."</h1" ;
+     echo "<h1>" ."No sessions found"."</h1" ;
  }
 
 }
