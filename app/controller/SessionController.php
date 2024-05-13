@@ -181,6 +181,47 @@ public function deleteSession($sessionId){
         return false;
     }
 }
+
+
+public function getEnrolled($sessionId)
+{
+    // Ensure the session ID is properly escaped to prevent SQL injection
+    $sessionId = mysqli_real_escape_string($this->conn, $sessionId);
+    
+    // SQL query to retrieve student firstname and number from student table based on enrollment
+    $sql = "SELECT student.firstname, student.number
+            FROM student
+            JOIN enrollment ON student.sid = enrollment.sid
+            WHERE enrollment.sessid = '$sessionId'";
+            
+    $result = mysqli_query($this->conn, $sql);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            echo "<table border='1'>
+                    <tr>
+                        <th>Name</th>
+                        <th>Number</th>
+                        <th>Action</th>
+                    </tr>";
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['firstname'] . "</td>";
+                echo "<td>" . $row['number'] . "</td>";
+                echo "<td><a href='./DeleteEnrollment.php?sessid=" . $sessionId . "'>delete</a></td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+        } else
+         {
+            echo "<h1>No students found</h1>";
+        }
+    } else {
+        // Handle query error
+        echo "Error: " . mysqli_error($this->conn);
+    }
+}
+
 public function viewSessions($ID){
     // Query the sessions table and join it with the center table to get the center's name
     $sql = "SELECT sessions.*, center.cname FROM sessions
@@ -195,7 +236,7 @@ public function viewSessions($ID){
             echo "<td>" . $row['date'] . "</td>";
             echo "<td>" . $row['time'] . "</td>";
             echo "<td>" . $row['status'] . "</td>";
-            echo "<td><a href='./editSession.php?sessid=" . $row['sessid'] . "'>Edit</a> | <a href='./deleteSession.php?sessid=" . $row['sessid'] . "'>Delete</a></td>";
+            echo "<td><a href='./editSession.php?sessid=" . $row['sessid'] . "'>Edit</a> | <a href='./deleteSession.php?sessid=" . $row['sessid'] . "'>Delete</a>|<a href='./viewenrollment.php?sessid=" . $row['sessid'] . "'>View Enrolled</a></td>";
             echo "<td>" . $row['cname'] . "</td>";
             echo "</tr>";
         }

@@ -56,7 +56,7 @@ include_once '..\includes\navigation.php';
                 <div class="card card-3">
                     <div class="card--title">
                         <span class="card--icon icon"><i class="ri-handbag-line"></i></span>
-                        <span>Appointments</span>
+                        <span> <a href="viewSessions.php">Appointments</a></span>
                     </div>
                     <h3 class="card--value"> <i class="ri-arrow-up-circle-fill up"></i></h3>
                     <h5 class="more"></h5>
@@ -112,6 +112,7 @@ include_once '..\includes\navigation.php';
                             <th>Mobile Number</th>
                             <th>Center</th>
                             <th>Next time Appointment</th>
+                   
                         </tr>
                     </thead>
                     <tbody>
@@ -121,13 +122,9 @@ student.firstname,
 student.lastname,
 student.age,
 student.sid,
-
 student.number
 FROM
 student
-
--- JOIN
--- medications ON patient.Pid=medications.Pid  
 
 ";
 $result = mysqli_query($conn,$sql);
@@ -138,6 +135,7 @@ while ($row = $result->fetch_array()) {
     echo '<td>'.$row["sid"].    '</td>';
     echo '<td>'.$row["age"].'</td>';
     echo '<td>'.$row["number"].'</td>';
+
    echo '</tr>';
     
 }

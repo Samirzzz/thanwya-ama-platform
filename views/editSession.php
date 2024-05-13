@@ -11,6 +11,7 @@ $errors = array();
 if (isset($_GET['sessid'])) {
     $sessionId = $_GET['sessid'];
 }
+
 $sql = "SELECT * FROM sessions WHERE sessid = $sessionId";
 $result = mysqli_query($conn, $sql);
 $session = mysqli_fetch_assoc($result);
@@ -19,10 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
     $s_date = htmlspecialchars($_POST['date']);
     $s_time = htmlspecialchars($_POST['time']);
     $s_price = htmlspecialchars($_POST['price']);
-    // $a_did =htmlspecialchars($_POST['doctorid']);
-    // $a_cid =htmlspecialchars($_POST['clinicid']);
-    // $a_pid =htmlspecialchars($_POST['patientid']);
-
+    
     $errors = $sessioncntrl->validateSessionUpdate($s_date, $s_time, $s_price);
 
 
