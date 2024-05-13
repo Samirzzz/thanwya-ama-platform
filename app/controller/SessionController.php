@@ -170,7 +170,17 @@ public function updateSession($sessionId,$s_date, $s_time, $s_price){
         return false;
     }
 }
-
+public function DeleteEnrollment($sessionId)
+{
+    $sql="DELETE FROM enrollment WHERE sessid=$sessionId";
+    $res=mysqli_query($this->conn,$sql);
+    if ($res) {
+        
+        return true;
+    } else {
+        return false;
+    }
+}
 public function deleteSession($sessionId){
     $sql = "DELETE FROM sessions WHERE sessid = $sessionId";
     $res = mysqli_query($this->conn, $sql);
@@ -185,11 +195,10 @@ public function deleteSession($sessionId){
 
 public function getEnrolled($sessionId)
 {
-    // Ensure the session ID is properly escaped to prevent SQL injection
+ 
     $sessionId = mysqli_real_escape_string($this->conn, $sessionId);
     
-    // SQL query to retrieve student firstname and number from student table based on enrollment
-    $sql = "SELECT student.firstname, student.number
+    $sql = "SELECT student.firstname, student.number,student.lastname
             FROM student
             JOIN enrollment ON student.sid = enrollment.sid
             WHERE enrollment.sessid = '$sessionId'";
@@ -198,20 +207,14 @@ public function getEnrolled($sessionId)
 
     if ($result) {
         if (mysqli_num_rows($result) > 0) {
-            echo "<table border='1'>
-                    <tr>
-                        <th>Name</th>
-                        <th>Number</th>
-                        <th>Action</th>
-                    </tr>";
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>";
                 echo "<td>" . $row['firstname'] . "</td>";
+                echo "<td>" . $row['lastname'] . "</td>";
                 echo "<td>" . $row['number'] . "</td>";
                 echo "<td><a href='./DeleteEnrollment.php?sessid=" . $sessionId . "'>delete</a></td>";
                 echo "</tr>";
             }
-            echo "</table>";
         } else
          {
             echo "<h1>No students found</h1>";
@@ -221,6 +224,7 @@ public function getEnrolled($sessionId)
         echo "Error: " . mysqli_error($this->conn);
     }
 }
+
 
 public function viewSessions($ID){
     // Query the sessions table and join it with the center table to get the center's name
